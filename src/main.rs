@@ -1,4 +1,4 @@
-use std::{error::Error, io};
+use std::io;
 
 fn main() {
     println!("Calliope. Introduce 2 numeros.");
