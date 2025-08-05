@@ -1,4 +1,4 @@
-use std::io;
+use std::{error::Error, io};
 
 fn main() {
     println!("Calliope. Introduce 2 numeros.");
@@ -13,18 +13,25 @@ fn main() {
         .read_line(&mut k)
         .expect("Fallo al leer numero.");
 
-    let n = n
+    let mut n = n
         .trim()
         .parse::<u32>()
         .expect("Introduce un numero natural");
+
     let k = k
         .trim()
         .parse::<u32>()
         .expect("Introduce un numero natural");
 
-    if k == 0 {
-        println!("No dividas entre 0.");
+    if k == 0 || n == 0 {
+        println!("0 Detectado, no es valido.");
     }
+
+    if n > 1 {
+        let tn: u32 = n / 2;
+        n = tn + ((1 + n) / 2);
+    }
+
     if n % k == 0 {
         println!("SI");
     } else {
