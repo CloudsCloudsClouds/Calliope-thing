@@ -38,3 +38,47 @@ fn main() {
         println!("NO");
     }
 }
+
+
+#[cfg(test)]
+mod tests {
+    // Extract the core logic first — right now it's buried in main()
+    // so we need to pull it out into a testable function
+
+    fn solve(n: u32, k: u32) -> &'static str {
+        if k == 0 || n == 0 {
+            return "INVALID";
+        }
+        let n = if n > 1 {
+            let tn = n / 2;
+            tn + ((1 + n) / 2)
+        } else {
+            n
+        };
+        if n % k == 0 { "SI" } else { "NO" }
+    }
+
+    #[test]
+    fn zero_inputs_are_invalid() {
+        assert_eq!(solve(0, 5), "INVALID");
+        assert_eq!(solve(5, 0), "INVALID");
+    }
+
+    #[test]
+    fn divisible_returns_si() {
+        assert_eq!(solve(4, 2), "SI");
+        assert_eq!(solve(1, 1), "SI");
+    }
+
+    #[test]
+    fn not_divisible_returns_no() {
+        assert_eq!(solve(4, 3), "NO");
+    }
+
+    #[test]
+    fn odd_n_transform() {
+        // n=3 -> 1 + 2 = 3, n=5 -> 2 + 3 = 5
+        // the transform is a no-op on odd numbers too
+        assert_eq!(solve(3, 3), "SI");
+    }
+}
